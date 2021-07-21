@@ -54,3 +54,125 @@ let data = {
     trial1: [[1, 2], [3, 4]],
     trial2: [[2, 3], [4, 5]],
 }
+
+// 操作符用于操作值（操作数）以产生新值
+// 算术操作符是最简单的操作符
+3 + 2
+3 - 2
+3 * 2
+3 / 2
+
+points[1].x - points[0].x
+
+"3" + "2" // => 『32』
+
+// JavaScript 定义了一些简单的算术操作符
+let count = 0;
+count++;
+count--;
+count += 2;
+count *= 3;
+count
+
+// 相等和关系操作符测试两个值是否相等、不等、小于、大于，等等。它们求值为 true 或 false
+let x = 2, y = 3;
+x === y;
+x !== y;
+x < y
+x <= y
+x > y
+x >= y
+"two" === "three"
+"two" > "three"
+false === (x > y)
+
+    // 逻辑操作符组合或反转布尔值
+    (x === 2) && (y === 3)
+        (x > 3) || (y < 3)
+!(x === y)
+
+// 函数是可以调用的有参数的 JavaScript 代码块
+function plus1(x) {
+    return x + 1;
+}
+
+plus1(y);
+
+let square = function (x) {
+    return x * x;
+}
+
+square(plus1(y));
+
+const plus1 = x => x + 1;
+const square = x => x * x;
+plus1(y);
+square(plus1(y));
+
+// 在把函数赋值给对象的属性时，我们称它们为「方法」
+// 所以 JavaScript 对象（包括数组）都有方法
+let a = [];
+a.push(1, 2, 3);
+a.reverse();
+
+// 我们也可以定义自己的方法。此时的 this 关键字引用的是方法所在的对象，也就是前面定义的数组 points
+points.dist = function () {
+    let p1 = this[0]; // 调用数组的第一个元素
+    let p2 = this[1]; // this 对象的第二个元素
+    let a = p2.x - p1.x;
+    let b = p2.y - p1.y;
+    return Math.sqrt(a * a + b * b)
+}
+points.dist();
+
+// JavaScript 语句中有条件和循环，语法与 C、C++、Java 和其他一些语言是一样的
+function abs(x) {
+    if (x >= 0) return x;
+    return -x;
+}
+abs(-10) === abs(10)
+
+// 计算数组元素之和
+function sum(array) {
+    let sum = 0;
+    for (let x of array) {
+        sum += x;
+    }
+    return sum;
+}
+sum(primes);
+
+// 计算阶乘
+function factorial(n) {
+    let product = 1;
+    while (n > 1) {
+        product *= n;
+        n--;
+    }
+    return product;
+}
+factorial(4);
+
+// 使用不同循环的另一个版本
+function factorial2(n) {
+    let i, product = 1;
+    for (i = 2; i <= n; i += 1) {
+        product *= i;
+    }
+    return product;
+}
+factorial2(5);
+
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    distancd() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+}
+// 使用 Point() 构造函数和 new 创建 Point 对象
+let p = new Point(1, 1);
+p.distancd();
