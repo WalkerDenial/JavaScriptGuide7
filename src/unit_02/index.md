@@ -43,5 +43,29 @@ JavaScript 支持两种注释：单行注释是以 // 开头到一行末尾的�
 
 ### 2.4.2 保留字
 
+| - | - | - | - | - | - | - |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| as | const | export | get | null | target | void |
+| async | continue | extends | if | of | this | while |
+| await | debugger | false | import | return | throw | with |
+| break | default | finally | in | set | true | yield |
+| case | delete | for | instanceof | static | try | |
+| catch | do | from | let | super | typeof | |
+| class | else | function | new | switch | var | |
 
+JavaScript 也保留或限制对某些关键字的使用，这些关键字当前并未被语言所用，但将来某个版本有可能会用到：
 
+| - | - | - | - | - | - | - |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| enum | implements | interface | package | private | protected | public |
+
+由于历史原因，某些情况下也不允许使用 **arguments** 和 **eval** 作为标识符，因此最好不要使用。
+
+## 2.5 Unicode
+
+JavaScript 程序时使用 Unicode 字符集编写的，因此在字符串和注释中可以使用任意 Unicode 字符。考虑到可移植性和易于编辑，建议在标志符中只使用 ASCII 字母和数字。
+
+```JavaScript
+const n = 3.14;
+const sÍ = true;
+```
