@@ -197,6 +197,14 @@ JavaScript 中表示文本的类型是 String，即字符串。字符串是 **16
 
 JavaScript 的字符串操作方法一般操作的是 16 位值，而不是字符。换句话说，它们不会特殊对待代理对，不对字符串进行归一化，甚至不保证字符串是格式正确的 UTF-16。
 
+### 字符串字面量
+
+要在 JavaScript 程序中包含字符串，可以把字符串放到一对匹配的 **单引号**、**双引号**、**反引号** 中。
+
+### 字符串字面量中的转义序列
+
+反斜杠在 JavaScript 字符串中有特殊的作用：它与后面的字符组合在一起，可以再字符串中表示一个无法直接表示的字符。例如，**\n** 是一个表示换行符的转义序列。
+
 **JavaScript 转义序列**
 
 | 序列 | 表示的字符 |
@@ -219,3 +227,84 @@ JavaScript 的字符串操作方法一般操作的是 16 位值，而不是字�
 
 ES5 允许把反斜杠放在换行符前面从而将一个字符串字面量拆成多行。
 
+### 使用字符串
+
+ ```JavaScript
+ let s = "Hello, world"; // 先声明一个字符串
+ 
+ // 取得字符串的一部分
+ s.substring(1, 4) 		// => "ell": 第 2~4 个字符
+ s.slice(1, 4) 			// => "ell": 第 2~4 个字符
+ s.slice(-3) 			// => "rld": 最后 3 个字符
+ s.split(",") 			// => ["Hello", "World"]: 从定界符处拆开
+ 
+ // 搜索字符串
+ s.indexOf("l") 		// => 2: 第一个字母 l 的位置
+ s.indexOf("l", 3) 		// => 3: 位置 3 后面第一个 l 的位置
+ s.indexOf("zz") 		// => -1: s 并不包含子串 zz
+ s.lastIndexOf("l") 	// => 10: 最后一个字母 l 的位置
+ 
+ // ES6 及之后版本中的布尔值搜索函数
+ s.startsWith("Hell") 	// => true: 字符串是以这些字符开头的
+ s.endsWith("!") 		// => false: s 不是以 ! 结尾的
+ s.includes("or") 		// => true: s 包含子串 or
+ 
+ // 创建字符串的修改版本
+ s.replace("llo", "ya") // => "Heya, world"
+ s.toLowerCase() 		// => "hello, world"
+ s.toUpperCase() 		// => "HELLO, WORLD"
+ s.normalize() 			// => Unicode NFC 归一化: ES6 新增
+ s.normalize("NFD") 	// => NFD 归一化。还有「NFKC」和「NFKD」
+ 
+ // 访问字符串中的个别（16 位值）字符
+ s.charAt(0) 			// => "H": 第一个字符
+ s.charAt(s.length - 1) // => "d": 最后一个字符
+ s.charCodeAt(0) 		// => 72: 指定位置的 16 位数值
+ s.codePointAt(0) 		// => 72: ES6，适用于码点大于 16 位的情形
+ 
+ // ES2017 新增的字符串填充函数
+ "x".padStart(3) 		// => "  x": 在左侧添加空格，让字符串长度变成 3
+ "x".padEnd(3) 			// => "x  ": 在右侧添加空格，让字符串长度变成 3
+ "x".padStart(3, "*") 	// => "**x": 在左侧添加 *，让字符串长度变成 3
+ "x".padEnd(3, "-") 	// => "x--": 在右侧添加 -，让字符串长度变成 3
+ 
+ // 删除空格函数。trim() 是 ES5 就有的，其他是 ES2019 增加的
+ " test ".trim() // => "test": 删除开头和末尾的空格
+ " test ".trimStart() // => "test ": 删除开头的空格
+ " test ".trimEnd() // => " test": 删除结尾的空格
+ 
+ // 未分类字符串方法
+ s.concat("!") // => "Hello, World!": 可以用 + 操作符代替
+ "<>".repeat(5) // => "<><><><><>": 拼接 n 次。ES6 新增
+ ```
+
+JavaScript 中的字符串是 **不可修改** 的。像 replace() 等方法都返回新字符串，它们并不会修改调用它们的字符串。
+
+### 模板字面量
+
+```JavaScript
+let name = "Bill";
+let greeting = `Hello ${ name }.`; // => "Hello Bill."
+```
+
+位于 **${ 和对应的 }** 之间的内容都被当做 JavaScript 表达式来解释。而位于这对花括号之外的则是常规字符串字面量。括号内的表达式会被求值，然后转换为字符串并插入模板中，替换美元字符、花括号以及花括号中的所有内容。
+
+```JavaScript
+let errorMessage = `\
+\u2718 Test failure at ${filename}:${linenumber}:
+${exception.message}
+Stack trace:
+${exception.stack}
+`
+```
+
+模板字面量有一个强大但不太常用的特性：如果在开头的反引号前面有一个函数名（标签），那么模板字面量中的文本和表达式的值将作为参数传给这个函数。**标签化模板字面量（tagged template literal）的值就是这个函数的返回值**。这个特性可以用于先对某些值进行 HTML 或 SQL 转义，然后再把它们插入文本。
+
+ES6 提供了一个内置的标签函数：String.raw()。这个函数返回反引号中未经处理的文本，即不会处理任何反斜杠转义。
+
+```JavaScript
+`\n`.length // => 1: 字符串中只包含一个换行符
+String.raw`\n`.length // => 2: 一个反斜杠字符和一个字母 n
+```
+
+**注意**，即使标签化模板字面量的标签部分是函数，在调用这个函数时也没有圆括号。在这种非常特别的情况下，反引号字符充当开头和末尾的圆括号。
