@@ -308,3 +308,21 @@ String.raw`\n`.length // => 2: 一个反斜杠字符和一个字母 n
 ```
 
 **注意**，即使标签化模板字面量的标签部分是函数，在调用这个函数时也没有圆括号。在这种非常特别的情况下，反引号字符充当开头和末尾的圆括号。
+
+### 模式匹配
+
+ JavaScript 定义了一种被称为正则表达式（或 RegExp）的数据类型，用于描述和匹配文本中的字符串模式。
+
+```JavaScript
+/^HTML/;			// 匹配字符串开头的字母 HTML
+/[1-9][0-9]*/;		// 匹配非 0 数字，后面跟着任意数字
+/\bjavascript\b/i;	// 匹配「javascript」这个词，不区分大小写
+
+let text = "testing: 1, 2, 3";	//示例文本
+let pattern = /\d+/g;			// 匹配一个或多个数字
+pattern.test(text);				// => true: 存在匹配项目
+text.search(pattern);			// => 9: 第一个匹配项的位置
+text.match(pattern);			// ["1", "2", "3"]: 所有匹配项的数组
+text.replace(pattern, ""#);		// => "testing: #, #, #"
+text.split(/\D+/);				// => ["", "1", "2", "3"]: 基于非数字拆分
+```
